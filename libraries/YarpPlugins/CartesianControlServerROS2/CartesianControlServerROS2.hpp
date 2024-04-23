@@ -87,7 +87,6 @@ private:
     void poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg);
     void twistTopic_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void wrenchTopic_callback(const geometry_msgs::msg::Wrench::SharedPtr msg);
-    void spacenav_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
 
     // -- Service callbacks -- Implementation in ServiceCallbackImpl.cpp 
 
