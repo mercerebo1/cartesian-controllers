@@ -90,8 +90,6 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
                                                                                this, std::placeholders::_1));
     if(!m_poseSubscription){
             yCError(CCS) << "Could not initialize the Pose msg subscription";
-            RCLCPP_ERROR(m_node->get_logger(),"Could not initialize the Pose msg subscription");
-
             return false;
         }     
     
@@ -100,8 +98,6 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
                                                                                  this, std::placeholders::_1));
     if(!m_twistSubscription){
             yCError(CCS) << "Could not initialize the Twist msg subscription";
-            RCLCPP_ERROR(m_node->get_logger(),"Could not initialize the Twist msg subscription");
-
             return false;
         }
     
@@ -110,20 +106,60 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
                                                                                    this, std::placeholders::_1));
     if(!m_wrenchSubscription){
             yCError(CCS) << "Could not initialize the Wrench msg subscription";
-            RCLCPP_ERROR(m_node->get_logger(),"Could not initialize the Wrench msg subscription");
-
             return false;
         }
 
+    m_spinner = new Spinner(m_node);
 
-    return yarp::os::PeriodicThread::start();
+    if (!m_spinner)
+    {
+        yCError(CCS) << "Failed to create spinner";
+        return false;
+    }
+
+    return m_spinner->start() && yarp::os::PeriodicThread::start();
 }
 
 // -----------------------------------------------------------------------------
 
 bool CartesianControlServerROS2::close()
 {
+     if (m_spinner && m_spinner->isRunning())
+    {
+        m_spinner->stop();
+    }
+ 
     return cartesianControlDevice.close();
+}
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+Spinner::Spinner(std::shared_ptr<rclcpp::Node> input_node)
+    : m_node(input_node)
+{}
+
+// -----------------------------------------------------------------------------
+
+Spinner::~Spinner()
+{
+    if (m_spun)
+    {
+        rclcpp::shutdown();
+        m_spun = false;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+void Spinner::run()
+{
+    if (!m_spun)
+    {
+        m_spun = true;
+        rclcpp::spin(m_node);
+    }
 }
 
 // -----------------------------------------------------------------------------

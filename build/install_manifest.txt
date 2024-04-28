@@ -1,0 +1,4 @@
+/usr/local/share/yarp/config/path.d/roboticslab-cartesian-control.ini
+/usr/local/share/roboticslab-cartesian-control/plugins/roboticslab-cartesian-control.ini
+/usr/local/lib/roboticslab-cartesian-control/CartesianControlServerROS2.so
+/usr/local/share/roboticslab-cartesian-control/plugins/CartesianControlServerROS2.ini
