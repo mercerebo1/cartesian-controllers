@@ -1,0 +1,133 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-bcb45158357de516dd6d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				},
+				{
+					"build" : "libraries",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libraries-Debug-a240e4b91e98ca34081a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "libraries"
+				},
+				{
+					"build" : "libraries/YarpPlugins",
+					"childIndexes" : 
+					[
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libraries.YarpPlugins-Debug-7b0b73d3cd42279b590c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "libraries/YarpPlugins"
+				},
+				{
+					"build" : "libraries/YarpPlugins/CartesianControlServerROS2",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libraries.YarpPlugins.CartesianControlServerROS2-Debug-9f80ef2aed2a866616a0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "libraries/YarpPlugins/CartesianControlServerROS2",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					],
+					"name" : "ROBOTICSLAB_CARTESIAN_CONTROL",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "CartesianControlServerROS2::@e4fc8780a491b44d3783",
+					"jsonFile" : "target-CartesianControlServerROS2-Debug-3b7ae1746de7852ca734.json",
+					"name" : "CartesianControlServerROS2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ROBOTICSLAB_CARTESIAN_CONTROL_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ROBOTICSLAB_CARTESIAN_CONTROL_uninstall-Debug-2bc0227de7a200ee6e40.json",
+					"name" : "ROBOTICSLAB_CARTESIAN_CONTROL_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Debug-f3362bc0f47e60a991bc.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/merce/cartesian-controllers/build",
+		"source" : "/home/merce/cartesian-controllers"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

@@ -1,0 +1,80 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"yarp_configure_external_installation",
+			"yarp_configure_plugins_installation"
+		],
+		"files" : 
+		[
+			"/usr/local/share/yarp/cmake/YarpInstallationHelpers.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 42,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 261,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 307,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 96,
+				"parent" : 3
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 2,
+			"component" : "configuration",
+			"destination" : "/usr/local/share/yarp/config/path.d",
+			"paths" : 
+			[
+				{
+					"from" : "build/CMakeFiles/path.d_roboticslab-cartesian-control_for_install.ini",
+					"to" : "roboticslab-cartesian-control.ini"
+				}
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "configuration",
+			"destination" : "share/roboticslab-cartesian-control/plugins",
+			"paths" : 
+			[
+				{
+					"from" : "build/CMakeFiles/roboticslab-cartesian-control_for_install.ini",
+					"to" : "roboticslab-cartesian-control.ini"
+				}
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

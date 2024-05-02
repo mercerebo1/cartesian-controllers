@@ -88,26 +88,29 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
     m_poseSubscription = m_node->create_subscription<geometry_msgs::msg::Pose>(prefix + "/command/pose", 10,
                                                                                std::bind(&CartesianControlServerROS2::poseTopic_callback,
                                                                                this, std::placeholders::_1));
-    if(!m_poseSubscription){
-            yCError(CCS) << "Could not initialize the Pose msg subscription";
-            return false;
-        }     
+    if(!m_poseSubscription)
+    {
+        yCError(CCS) << "Could not initialize the Pose msg subscription";
+        return false;
+    }     
     
     m_twistSubscription = m_node->create_subscription<geometry_msgs::msg::Twist>(prefix + "/command/twist", 10,
                                                                                  std::bind(&CartesianControlServerROS2::twistTopic_callback,
                                                                                  this, std::placeholders::_1));
-    if(!m_twistSubscription){
-            yCError(CCS) << "Could not initialize the Twist msg subscription";
-            return false;
-        }
+    if(!m_twistSubscription)
+    {
+        yCError(CCS) << "Could not initialize the Twist msg subscription";
+        return false;
+    }
     
     m_wrenchSubscription = m_node->create_subscription<geometry_msgs::msg::Wrench>(prefix + "/command/wrench", 10,
                                                                                    std::bind(&CartesianControlServerROS2::wrenchTopic_callback,
                                                                                    this, std::placeholders::_1));
-    if(!m_wrenchSubscription){
-            yCError(CCS) << "Could not initialize the Wrench msg subscription";
-            return false;
-        }
+    if(!m_wrenchSubscription)
+    {
+        yCError(CCS) << "Could not initialize the Wrench msg subscription";
+        return false;
+    }
 
     m_spinner = new Spinner(m_node);
 
