@@ -81,10 +81,19 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
         rclcpp::init(0, nullptr);
     }
 
-    // ROS2 initialization
+    // ROS2 initialization 
     m_node = std::make_shared<rclcpp::Node>(nodeName);
+    
+    // Parameters
+    //m_iCartesianControl->getParameter(VOCAB_CC_CONFIG_STREAMING_CMD, preset_streaming_cmd);
+    
+    // m_node->declare_parameter("preset_streaming_cmd", preset_streaming_cmd);
+    // m_node->get_parameter("preset_streaming_cmd", preset_streaming_cmd);
+    
+    // Publisher
     m_publisher = m_node->create_publisher<geometry_msgs::msg::PoseStamped>(prefix + "/state/pose", 10);
 
+    // Subscriptions
     m_poseSubscription = m_node->create_subscription<geometry_msgs::msg::Pose>(prefix + "/command/pose", 10,
                                                                                std::bind(&CartesianControlServerROS2::poseTopic_callback,
                                                                                this, std::placeholders::_1));
@@ -112,6 +121,7 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
         return false;
     }
 
+    // Spin node for ROS2
     m_spinner = new Spinner(m_node);
 
     if (!m_spinner)
@@ -135,9 +145,7 @@ bool CartesianControlServerROS2::close()
     return cartesianControlDevice.close();
 }
 
-// -----------------------------------------------------------------------------
-/********SPINNER CLASS********/
-// -----------------------------------------------------------------------------
+// ------------------- Spinner Class Related ------------------------------------
 
 Spinner::Spinner(std::shared_ptr<rclcpp::Node> input_node)
     : m_node(input_node)

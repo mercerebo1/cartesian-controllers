@@ -19,6 +19,7 @@
 
 using namespace roboticslab;
 
+// ------------------- Subscription callbacks ------------------------------------
 
 void CartesianControlServerROS2::poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg)
 {
@@ -33,6 +34,8 @@ void CartesianControlServerROS2::poseTopic_callback(const geometry_msgs::msg::Po
         rot.y(),
         rot.z()
     };
+
+    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI);
 
     yCInfo(CCS) << "Received pose: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
     
@@ -52,6 +55,8 @@ void CartesianControlServerROS2::twistTopic_callback(const geometry_msgs::msg::T
         msg->angular.z
     };
 
+    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST);
+
     yCInfo(CCS) << "Received twist: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
     
     m_iCartesianControl->twist(v);
@@ -70,6 +75,8 @@ void CartesianControlServerROS2::wrenchTopic_callback(const geometry_msgs::msg::
         msg->torque.z
     };
     
+    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH);
+
     yCInfo(CCS) << "Received wrench: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
 
     m_iCartesianControl->wrench(v);

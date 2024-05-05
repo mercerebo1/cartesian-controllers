@@ -17,6 +17,7 @@
 #include <kdl/frames.hpp>
 
 #include <ICartesianControl.h>
+//#include <IControlMode.h>
 
 namespace roboticslab
 {
@@ -33,6 +34,8 @@ private:
     std::shared_ptr<rclcpp::Node> m_node;
 };    
 
+// -----------------------------------------------------------------------------
+
 class CartesianControlServerROS2 : public yarp::dev::DeviceDriver,
                                    public yarp::os::PeriodicThread
 {
@@ -40,31 +43,28 @@ public:
     CartesianControlServerROS2() : yarp::os::PeriodicThread(1.0)
     {}
 
-    // -- Implementation in DeviceDriverImpl.cpp --
+    // Implementation in DeviceDriverImpl.cpp 
     bool open(yarp::os::Searchable & config) override;
     bool close() override;
 
-    // -- Implementation in PeriodicThread.cpp  --
+    // Implementation in PeriodicThread.cpp  
     void run() override;
 
 private:
-
-    //mutable std::mutex m_mtx;
-
-
-    // -- Devices --
+    // Devices
     yarp::dev::PolyDriver cartesianControlDevice;
     ICartesianControl * m_iCartesianControl;
     
-    // -- ROS2 attributes --
+    // ROS2 attributes 
     Spinner * m_spinner; 
     rclcpp::Node::SharedPtr                                       m_node;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr m_publisher;
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr     m_poseSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr    m_twistSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr   m_wrenchSubscription;
+    double * preset_streaming_cmd;
 
-    // -- Subscription callbacks - Topics --
+    // Subscription callbacks - Topics 
     void poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg);
     void twistTopic_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void wrenchTopic_callback(const geometry_msgs::msg::Wrench::SharedPtr msg);
