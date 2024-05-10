@@ -85,15 +85,33 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
     m_node = std::make_shared<rclcpp::Node>(nodeName);
     
     // Parameters
-    //m_iCartesianControl->getParameter(VOCAB_CC_CONFIG_STREAMING_CMD, preset_streaming_cmd);
-    
-    // m_node->declare_parameter("preset_streaming_cmd", preset_streaming_cmd);
-    // m_node->get_parameter("preset_streaming_cmd", preset_streaming_cmd);
+    callback_handle_ = m_node->add_on_set_parameters_callback(std::bind(&CartesianControlServerROS2::parameter_callback, this, std::placeholders::_1));
+
+    rcl_interfaces::msg::ParameterDescriptor descriptor;
+    descriptor.name = "preset_streaming_cmd";
+    descriptor.description = "Streaming command to be used by the device.";
+    descriptor.read_only = false;
+    descriptor.additional_constraints = "Only 'twist', 'movi', or 'wrench' are allowed.";
+    descriptor.set__type(rcl_interfaces::msg::ParameterType::PARAMETER_STRING);
+
+    m_node->declare_parameter("preset_streaming_cmd", "movi", descriptor); //movi as default value
+    m_node->get_parameter("preset_streaming_cmd", preset_streaming_cmd);
+    //preset_streaming_cmd = m_node->get_parameter("preset_streaming_cmd").as_string();
     
     // Publisher
     m_publisher = m_node->create_publisher<geometry_msgs::msg::PoseStamped>(prefix + "/state/pose", 10);
 
     // Subscriptions
+    // m_paramSubscription = m_node->create_subscription<rcl_interfaces::msg::ParameterEvent>("/parameter_events", 10, 
+    //                                                                         std::bind(&CartesianControlServerROS2::parameter_callback, 
+    //                                                                         this, std::placeholders::_1));
+
+    // if(!m_paramSubscription)
+    // {
+    //     yCError(CCS) << "Could not initialize the ParameterEvent subscription";
+    //     return false;
+    // }
+
     m_poseSubscription = m_node->create_subscription<geometry_msgs::msg::Pose>(prefix + "/command/pose", 10,
                                                                                std::bind(&CartesianControlServerROS2::poseTopic_callback,
                                                                                this, std::placeholders::_1));

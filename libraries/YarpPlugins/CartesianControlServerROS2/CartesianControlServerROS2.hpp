@@ -9,6 +9,7 @@
 #include <yarp/dev/PolyDriver.h>
 
 #include <rclcpp/rclcpp.hpp>
+#include <rcl_interfaces/msg/set_parameters_result.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/twist.hpp>
@@ -17,7 +18,6 @@
 #include <kdl/frames.hpp>
 
 #include <ICartesianControl.h>
-//#include <IControlMode.h>
 
 namespace roboticslab
 {
@@ -57,18 +57,22 @@ private:
     
     // ROS2 attributes 
     Spinner * m_spinner; 
+    
     rclcpp::Node::SharedPtr                                       m_node;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr m_publisher;
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr     m_poseSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr    m_twistSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr   m_wrenchSubscription;
-    double * preset_streaming_cmd;
+    
+    rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr callback_handle_;
+    std::string preset_streaming_cmd;
 
     // Subscription callbacks - Topics 
     void poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg);
     void twistTopic_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void wrenchTopic_callback(const geometry_msgs::msg::Wrench::SharedPtr msg);
-
+    
+    rcl_interfaces::msg::SetParametersResult parameter_callback(const std::vector<rclcpp::Parameter> &parameters);
 };
 
 } // namespace roboticslab
