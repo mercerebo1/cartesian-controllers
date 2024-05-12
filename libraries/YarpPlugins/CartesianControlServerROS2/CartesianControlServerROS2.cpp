@@ -35,7 +35,10 @@ void CartesianControlServerROS2::poseTopic_callback(const geometry_msgs::msg::Po
         rot.z()
     };
 
-    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI);
+    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI))
+    {
+        yCWarning(CCS) << "Unable to preset streaming command";
+    }
 
     m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "movi")); // Setting corresponding streaming parameter in ROS2 node
     
@@ -57,7 +60,10 @@ void CartesianControlServerROS2::twistTopic_callback(const geometry_msgs::msg::T
         msg->angular.z
     };
 
-    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST);
+    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST))
+    {
+        yCWarning(CCS) << "Unable to preset streaming command";
+    }
 
     m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "twist"));
 
@@ -79,7 +85,10 @@ void CartesianControlServerROS2::wrenchTopic_callback(const geometry_msgs::msg::
         msg->torque.z
     };
     
-    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH);
+    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH))
+    {
+        yCWarning(CCS) << "Unable to preset streaming command";
+    }
 
     m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "wrench"));
 
@@ -97,29 +106,50 @@ rcl_interfaces::msg::SetParametersResult CartesianControlServerROS2::parameter_c
         result.successful = true;
         for (const auto &param: parameters)
         {
-            if(param.get_name() == "preset_streaming_cmd")
+            if(param.get_name() == "preset_streaming_cmd")  
             {
                 preset_streaming_cmd = param.value_to_string();
 
                 if (preset_streaming_cmd == "twist")
                 {
                     yCInfo(CCS) << "Param for preset_streaming_cmd correctly stablished:" << preset_streaming_cmd.c_str();
-                    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST);
+                    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST))
+                    {
+                        yCWarning(CCS) << "Unable to preset streaming command";
+                    }
                 }
                 else if (preset_streaming_cmd == "movi")
                 {
                     yCInfo(CCS) << "Param for preset_streaming_cmd correctly stablished:" << preset_streaming_cmd.c_str();
-                    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI);
+                    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI))
+                    {
+                        yCWarning(CCS) << "Unable to preset streaming command";
+                    }
                 }
                 else if (preset_streaming_cmd == "wrench")
                 {
                     yCInfo(CCS) << "Param for preset_streaming_cmd correctly stablished:" << preset_streaming_cmd.c_str();
-                    m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH);
+                    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH))
+                    {
+                        yCWarning(CCS) << "Unable to preset streaming command";
+                    }
+                }
+                else if (preset_streaming_cmd == "none")
+                {
+                    yCInfo(CCS) << "Param for preset_streaming_cmd correctly stablished:" << preset_streaming_cmd.c_str();
+                    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_NOT_SET))
+                    {
+                        yCWarning(CCS) << "Unable to preset streaming command";
+                    }
                 }
                 else
                 {
                     result.successful = false;
-                    result.reason = "Invalid parameter value. Only 'twist', 'movi', or 'wrench' are allowed.";
+                    result.reason = "Invalid parameter value. Only 'twist', 'movi', 'wrench' or 'none' are allowed. Using 'none' as default.";
+                    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_NOT_SET))
+                    {
+                        yCWarning(CCS) << "Unable to preset streaming command";
+                    }
                     yCInfo(CCS) << "Invalid parameter value for preset_streaming_cmd.";
                 }
             }

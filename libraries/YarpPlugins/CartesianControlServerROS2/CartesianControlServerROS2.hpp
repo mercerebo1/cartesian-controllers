@@ -18,6 +18,7 @@
 #include <kdl/frames.hpp>
 
 #include <ICartesianControl.h>
+      
 
 namespace roboticslab
 {
@@ -53,7 +54,7 @@ public:
 private:
     // Devices
     yarp::dev::PolyDriver cartesianControlDevice;
-    ICartesianControl * m_iCartesianControl;
+    ICartesianControl * m_iCartesianControl;   
     
     // ROS2 attributes 
     Spinner * m_spinner; 
