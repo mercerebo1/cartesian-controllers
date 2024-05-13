@@ -35,16 +35,15 @@ void CartesianControlServerROS2::poseTopic_callback(const geometry_msgs::msg::Po
         rot.z()
     };
 
-    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_MOVI))
+    if(preset_streaming_cmd == "movi")
     {
-        yCWarning(CCS) << "Unable to preset streaming command";
+        yCInfo(CCS) << "Received pose: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
+        m_iCartesianControl->movi(v);
     }
-
-    m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "movi")); // Setting corresponding streaming parameter in ROS2 node
-    
-    yCInfo(CCS) << "Received pose: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
-    
-    m_iCartesianControl->movi(v);
+    else
+    {
+        yCWarning(CCS) << "Streaming command not set to 'movi'.";
+    }  
 }
 
 // -----------------------------------------------------------------------------
@@ -60,18 +59,21 @@ void CartesianControlServerROS2::twistTopic_callback(const geometry_msgs::msg::T
         msg->angular.z
     };
 
-    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST))
+
+    if(preset_streaming_cmd == "twist")
     {
-        yCWarning(CCS) << "Unable to preset streaming command";
+        if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_TWIST))
+        {
+            yCWarning(CCS) << "Unable to preset streaming command in Cartesian Control Interface.";
+        }
+        yCInfo(CCS) << "Received twist: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
+        m_iCartesianControl->twist(v);
     }
-
-    m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "twist"));
-
-    yCInfo(CCS) << "Received twist: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
-    
-    m_iCartesianControl->twist(v);
+    else
+    {
+        yCWarning(CCS) << "Streaming command not set to 'twist'.";
+    }
 }
-
 // -----------------------------------------------------------------------------
 
 void CartesianControlServerROS2::wrenchTopic_callback(const geometry_msgs::msg::Wrench::SharedPtr msg)
@@ -85,16 +87,15 @@ void CartesianControlServerROS2::wrenchTopic_callback(const geometry_msgs::msg::
         msg->torque.z
     };
     
-    if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_STREAMING_CMD, VOCAB_CC_WRENCH))
+    if(preset_streaming_cmd == "wrench")
     {
-        yCWarning(CCS) << "Unable to preset streaming command";
+        yCInfo(CCS) << "Received wrench: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
+        m_iCartesianControl->wrench(v);
     }
-
-    m_node->set_parameter(rclcpp::Parameter("preset_streaming_cmd", "wrench"));
-
-    yCInfo(CCS) << "Received wrench: [ " << v[0] << v[1] << v[2] << v[3] << v[4] << v[5] << " ]";
-
-    m_iCartesianControl->wrench(v);
+    else
+    {
+        yCWarning(CCS) << "Streaming command not set to 'wrench'.";
+    }
 }
 
 // -----------------------------------------------------------------------------
