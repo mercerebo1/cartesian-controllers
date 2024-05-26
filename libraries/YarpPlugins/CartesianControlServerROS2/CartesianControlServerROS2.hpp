@@ -67,6 +67,7 @@ private:
     
     rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr callback_handle_;
     std::string preset_streaming_cmd;
+    std::string frame_;
 
     // Subscription callbacks - Topics 
     void poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg);

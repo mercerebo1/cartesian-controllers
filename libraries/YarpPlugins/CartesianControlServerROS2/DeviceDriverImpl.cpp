@@ -87,15 +87,25 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
     // Parameters
     callback_handle_ = m_node->add_on_set_parameters_callback(std::bind(&CartesianControlServerROS2::parameter_callback, this, std::placeholders::_1));
 
-    rcl_interfaces::msg::ParameterDescriptor descriptor;
-    descriptor.name = "preset_streaming_cmd";
-    descriptor.description = "Streaming command to be used by the device.";
-    descriptor.read_only = false;
-    descriptor.additional_constraints = "Only 'twist', 'movi', 'wrench' or 'none' are allowed.";
-    descriptor.set__type(rcl_interfaces::msg::ParameterType::PARAMETER_STRING);
+    rcl_interfaces::msg::ParameterDescriptor descriptor_msg;
+    descriptor_msg.name = "preset_streaming_cmd";
+    descriptor_msg.description = "Streaming command to be used by the device.";
+    descriptor_msg.read_only = false;
+    descriptor_msg.additional_constraints = "Only 'twist', 'pose', 'wrench' or 'none' are allowed.";
+    descriptor_msg.set__type(rcl_interfaces::msg::ParameterType::PARAMETER_STRING);
 
-    m_node->declare_parameter("preset_streaming_cmd", "none", descriptor); //null default value
+    m_node->declare_parameter("preset_streaming_cmd", "none", descriptor_msg); //null default value
     m_node->get_parameter("preset_streaming_cmd", preset_streaming_cmd);
+
+    rcl_interfaces::msg::ParameterDescriptor descriptor_frame;
+    descriptor_frame.name = "frame";
+    descriptor_frame.description = "Reference frame to be used by the device.";
+    descriptor_frame.read_only = false;
+    descriptor_frame.additional_constraints = "Only 'base' or 'tcp' are allowed.";
+    descriptor_frame.set__type(rcl_interfaces::msg::ParameterType::PARAMETER_STRING);
+
+    m_node->declare_parameter<std::string>("frame", "base", descriptor_frame); // Default frame (base)
+    m_node->get_parameter("frame", frame_);
 
     
     // Publisher
