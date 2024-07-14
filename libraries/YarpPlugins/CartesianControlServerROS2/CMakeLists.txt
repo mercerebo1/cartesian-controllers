@@ -4,7 +4,6 @@ yarp_prepare_plugin(CartesianControlServerROS2
                     INCLUDE CartesianControlServerROS2.hpp
                     EXTRA_CONFIG WRAPPER=CartesianControlServerROS2
                     DEFAULT ON)
-                    #DEPENDS ENABLE_KinematicRepresentationLib)
 
 if(NOT SKIP_CartesianControlServerROS2)
 
@@ -26,7 +25,6 @@ if(NOT SKIP_CartesianControlServerROS2)
                                                      yarp_control_msgs__rosidl_typesupport_cpp
                                                      ROBOTICSLAB::KinematicsDynamicsInterfaces
                                                      ${orocos_kdl_LIBRARIES})
-                                                    #  ROBOTICSLAB::KinematicRepresentationLib
 
     target_include_directories(CartesianControlServerROS2 PRIVATE ${orocos_kdl_INCLUDE_DIRS})
 
