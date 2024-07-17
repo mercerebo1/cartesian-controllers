@@ -99,6 +99,25 @@ void CartesianControlServerROS2::wrenchTopic_callback(const geometry_msgs::msg::
     }
 }
 
+void CartesianControlServerROS2::gripperTopic_callback(const std_msgs::msg::Int32::SharedPtr msg)
+{
+    switch (msg->data)
+    {
+    case GRIPPER_CLOSE:
+        yCInfo(CCS) << "Gripper close";
+        m_iCartesianControl->act(VOCAB_CC_ACTUATOR_CLOSE_GRIPPER);
+        break;
+    case GRIPPER_OPEN:
+        yCInfo(CCS) << "Gripper open";
+        m_iCartesianControl->act(VOCAB_CC_ACTUATOR_OPEN_GRIPPER);
+        break;
+    case GRIPPER_STOP:
+        yCInfo(CCS) << "Gripper stop";
+        m_iCartesianControl->act(VOCAB_CC_ACTUATOR_STOP_GRIPPER);
+        break;
+    }
+}
+
 // -----------------------------------------------------------------------------
 
 rcl_interfaces::msg::SetParametersResult CartesianControlServerROS2::parameter_callback(
@@ -153,18 +172,18 @@ rcl_interfaces::msg::SetParametersResult CartesianControlServerROS2::parameter_c
             }
             if(param.get_name() == "frame")
             {
-                frame_ = param.value_to_string();
-                if (frame_ == "base")
+                frame = param.value_to_string();
+                if (frame == "base")
                 {
-                    yCInfo(CCS) << "Param for frame correctly stablished:" << frame_.c_str();
+                    yCInfo(CCS) << "Param for frame correctly stablished:" << frame.c_str();
                     if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_FRAME, ICartesianSolver::BASE_FRAME))
                     {
                         yCWarning(CCS) << "Unable to preset frame";
                     }
                 }
-                else if (frame_ == "tcp")
+                else if (frame == "tcp")
                 {
-                    yCInfo(CCS) << "Param for frame correctly stablished:" << frame_.c_str();
+                    yCInfo(CCS) << "Param for frame correctly stablished:" << frame.c_str();
                     if(!m_iCartesianControl->setParameter(VOCAB_CC_CONFIG_FRAME, ICartesianSolver::TCP_FRAME))
                     {
                         yCWarning(CCS) << "Unable to preset frame";

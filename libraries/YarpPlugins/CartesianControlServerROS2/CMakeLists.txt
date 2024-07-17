@@ -21,6 +21,7 @@ if(NOT SKIP_CartesianControlServerROS2)
     target_link_libraries(CartesianControlServerROS2 YARP::YARP_os
                                                      YARP::YARP_dev
                                                      rclcpp::rclcpp
+                                                     std_msgs::std_msgs__rosidl_typesupport_cpp
                                                      geometry_msgs::geometry_msgs__rosidl_typesupport_cpp
                                                      yarp_control_msgs__rosidl_typesupport_cpp
                                                      ROBOTICSLAB::KinematicsDynamicsInterfaces

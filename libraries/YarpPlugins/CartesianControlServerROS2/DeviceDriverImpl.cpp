@@ -105,7 +105,7 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
     descriptor_frame.set__type(rcl_interfaces::msg::ParameterType::PARAMETER_STRING);
 
     m_node->declare_parameter<std::string>("frame", "base", descriptor_frame); // Default frame (base)
-    m_node->get_parameter("frame", frame_);
+    m_node->get_parameter("frame", frame);
 
     
     // Publisher
@@ -136,6 +136,16 @@ bool CartesianControlServerROS2::open(yarp::os::Searchable & config)
     if(!m_wrenchSubscription)
     {
         yCError(CCS) << "Could not initialize the Wrench msg subscription";
+        return false;
+    }
+
+    m_gripperSubscription = m_node->create_subscription<std_msgs::msg::Int32>(prefix + "/command/gripper", 10,
+                                                                              std::bind(&CartesianControlServerROS2::gripperTopic_callback,
+                                                                              this, std::placeholders::_1));
+
+    if(!m_gripperSubscription)
+    {
+        yCError(CCS) << "Could not initialize the Gripper msg subscription";
         return false;
     }
 

@@ -14,6 +14,7 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/wrench.hpp>
+#include <std_msgs/msg/int32.hpp>
 
 #include <kdl/frames.hpp>
 
@@ -64,17 +65,23 @@ private:
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr     m_poseSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr    m_twistSubscription;
     rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr   m_wrenchSubscription;
+    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr         m_gripperSubscription;
     
     rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr callback_handle_;
     std::string preset_streaming_cmd;
-    std::string frame_;
+    std::string frame;
 
     // Subscription callbacks - Topics 
     void poseTopic_callback(const geometry_msgs::msg::Pose::SharedPtr msg);
     void twistTopic_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
     void wrenchTopic_callback(const geometry_msgs::msg::Wrench::SharedPtr msg);
+    void gripperTopic_callback(const std_msgs::msg::Int32::SharedPtr msg);
     
     rcl_interfaces::msg::SetParametersResult parameter_callback(const std::vector<rclcpp::Parameter> &parameters);
+
+    /*Notice that order of gripper_state enum values matches the same order from spacenav_device. If modify, please, update*/
+    enum gripper_state { GRIPPER_NONE, GRIPPER_OPEN, GRIPPER_CLOSE, GRIPPER_STOP };
+
 };
 
 } // namespace roboticslab
