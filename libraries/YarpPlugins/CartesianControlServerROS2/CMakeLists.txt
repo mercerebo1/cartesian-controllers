@@ -7,8 +7,6 @@ yarp_prepare_plugin(CartesianControlServerROS2
 
 if(NOT SKIP_CartesianControlServerROS2)
 
-    find_package(sensor_msgs REQUIRED)
-
     yarp_add_plugin(CartesianControlServerROS2 CartesianControlServerROS2.hpp
                                                CartesianControlServerROS2.cpp
                                                PeriodicThreadImpl.cpp
@@ -16,14 +14,12 @@ if(NOT SKIP_CartesianControlServerROS2)
                                                LogComponent.hpp
                                                LogComponent.cpp)
 
-
-
     target_link_libraries(CartesianControlServerROS2 YARP::YARP_os
                                                      YARP::YARP_dev
                                                      rclcpp::rclcpp
                                                      std_msgs::std_msgs__rosidl_typesupport_cpp
                                                      geometry_msgs::geometry_msgs__rosidl_typesupport_cpp
-                                                     yarp_control_msgs__rosidl_typesupport_cpp
+                                                     #yarp_control_msgs::yarp_control_msgs__rosidl_typesupport_cpp
                                                      ROBOTICSLAB::KinematicsDynamicsInterfaces
                                                      ${orocos_kdl_LIBRARIES})
 
