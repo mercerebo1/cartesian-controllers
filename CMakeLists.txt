@@ -28,6 +28,7 @@ find_package(YARP 3.8 REQUIRED COMPONENTS os dev sig
                                OPTIONAL_COMPONENTS math)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+#find_package(yarp_control_msgs REQUIRED)
 find_package(ROBOTICSLAB_KINEMATICS_DYNAMICS REQUIRED)
 find_package(orocos_kdl 1.4 REQUIRED)
 
