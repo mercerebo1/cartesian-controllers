@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "cmath": "cpp",
-        "csignal": "cpp",
-        "memory": "cpp",
-        "program": "cpp"
-    },
-    "ros.distro": "humble"
-}
