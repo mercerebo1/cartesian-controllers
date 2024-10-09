@@ -28,7 +28,7 @@ Ensure both YARP and ROS 2 are correctly installed and configured on your system
 
 
 ## Usage example
-This Cartesian control server was initially created to use BasicCartesianControl as a YARP subdevice from [kinematics-dynamics](https://github.com/roboticslab-uc3m/kinematics-dynamics/tree/master/libraries/YarpPlugins/BasicCartesianControl). Please, see below proposed control arquitecture:
+This Cartesian Control Server was initially created to use BasicCartesianControl as a YARP subdevice from [kinematics-dynamics](https://github.com/roboticslab-uc3m/kinematics-dynamics/tree/master/libraries/YarpPlugins/BasicCartesianControl). Please, see below proposed control arquitecture:
 
 ![Control arquitecture proposed.](fig/CartesianControlServer_ROS2-YARP.png)
 
