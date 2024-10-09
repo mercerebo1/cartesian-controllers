@@ -40,6 +40,17 @@ This Cartesian Control Server was initially created to use BasicCartesianControl
 
 * Block 4: Joint control from cartesian control applying Inverse Kinematics solver 'Screw Theory' from [kinematics-dynamics](https://github.com/roboticslab-uc3m/kinematics-dynamics/tree/master/libraries/ScrewTheoryLib).
 
+* Block 5: Actuation control accessed by Motor Control Interfaces differentiating between simulated and real environment.
+
+This control arquitecture is a modification from the arquitecture presented in “A generic controller for teleoperation on robotic manipulators using low-cost devices,”. The aim is to start a transition from YARP to ROS 2.
+
+
+### References
+
+[1] B. Łukawski, J. G. Victores, and C. Balaguer, “A generic controller for teleoperation on robotic manipulators using low-cost devices,” in *XLIV Jornadas de Automática*, 2023, pp. 785-788. [Online]. Available: [https://doi.org/10.17979/spudc.9788497498609.785](https://doi.org/10.17979/spudc.9788497498609.785).
+
+
+
 ## Available Callbacks:
 The server handles multiple types of commands through ROS 2 topics:
 
