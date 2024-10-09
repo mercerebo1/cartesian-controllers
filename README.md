@@ -42,7 +42,7 @@ This Cartesian Control Server was initially created to use BasicCartesianControl
 
 * Block 5: Actuation control accessed by Motor Control Interfaces differentiating between simulated and real environment.
 
-This control arquitecture is a modification from the arquitecture presented in “A generic controller for teleoperation on robotic manipulators using low-cost devices,”. The aim is to start a transition from YARP to ROS 2.
+This control arquitecture is a modification from the arquitecture presented in “A generic controller for teleoperation on robotic manipulators using low-cost devices,” [1]. The aim is to start a transition from YARP to ROS 2.
 
 
 ### References
