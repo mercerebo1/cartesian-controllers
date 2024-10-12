@@ -1,6 +1,6 @@
 # cartesian-controllers
  
-Cartesian Controller Server that combines ROS2 and YARP for generic system teleoperation.
+**Cartesian Controller** Server that combines ROS2 and YARP for generic system teleoperation.
 
 This project integrates YARP and ROS 2 to provide a Cartesian control server for robots. It enables communication with a YARP subdevide through its ICartesianControl interface, while allowing the robot's current position to be published and commands to be received via ROS 2 nodes.
 
@@ -32,35 +32,35 @@ This Cartesian control server was initially created to use BasicCartesianControl
 
 ![Control arquitecture proposed.](fig/CartesianControlServer_ROS2-YARP.png)
 
-* Block 1: /spacenav node from [spacenav](https://index.ros.org/p/spacenav/#humble-overview) package which sends buttons state and linear and angular component of a SpaceMouse.
+* **Block 1:** /spacenav node from [spacenav](https://index.ros.org/p/spacenav/#humble-overview) package which sends buttons state and linear and angular component of a SpaceMouse.
 
-* Block 2: /spacenav_device node from [spacenav_device](https://github.com/mercerebo1/spacenav_device) package that manage analogic data received and proccess data according three control modes: Twist (command velocities to TCP), Pose (command positions to TCP) and Wrench (command forces to TCP).
+* **Block 2:** /spacenav_device node from [spacenav_device](https://github.com/mercerebo1/spacenav_device) package that manage analogic data received and proccess data according three control modes: Twist (command velocities to TCP), Pose (command positions to TCP) and Wrench (command forces to TCP).
 
-* Block 3: Current Cartesian Control Server ROS 2 which is able to communicate to other ROS 2 nodes and wrap a YARP subdevice (BasicCartesianControl).
+* **Block 3:** Current Cartesian Control Server ROS 2 which is able to communicate to other ROS 2 nodes and wrap a YARP subdevice (BasicCartesianControl).
 
-* Block 4: Joint control from cartesian control applying Inverse Kinematics solver 'Screw Theory' from [kinematics-dynamics](https://github.com/roboticslab-uc3m/kinematics-dynamics/tree/master/libraries/ScrewTheoryLib).
+* **Block 4:** Joint control from cartesian control applying Inverse Kinematics solver 'Screw Theory' from [kinematics-dynamics](https://github.com/roboticslab-uc3m/kinematics-dynamics/tree/master/libraries/ScrewTheoryLib).
 
 ## Available Callbacks:
 The server handles multiple types of commands through ROS 2 topics:
 
-* poseTopic_callback: Processes Pose messages to send position commands to the controller.
-* twistTopic_callback: Processes Twist messages to control the robot's velocity.
-* wrenchTopic_callback: Processes Wrench messages to send force/torque commands.
-* gripperTopic_callback: Controls the robot’s gripper actuator (open, close, stop).
+* `poseTopic_callback`: Processes Pose messages to send position commands to the controller.
+* `twistTopic_callback`: Processes Twist messages to control the robot's velocity.
+* `wrenchTopic_callback`: Processes Wrench messages to send force/torque commands.
+* `gripperTopic_callback`: Controls the robot’s gripper actuator (open, close, stop).
 
 ## Parameter Configuration:
 The server allows the configuration of several parameters, including:
 
-* Transmission command type: Define the type of control commands (position, velocity, force).
-* Reference frame: Select between base or TCP frame for executing commands.
+* **Transmission command type:** Define the type of control commands (`position`, `velocity`, `force`).
+* **Reference frame:** Select between `base` or `TCP` frame for executing commands.
 
 ## Code Structure
 
 ### CartesianControlServerROS2.cpp
 This file implements the main server logic for handling Cartesian control:
 
-* Subscription Callbacks: Manages incoming messages to control the robot’s position, velocity, force, and gripper.
-* Parameter Management: Dynamically adjusts the server's settings based on incoming messages to ensure correct robot control.
+* **Subscription Callbacks:** Manages incoming messages to control the robot’s position, velocity, force, and gripper.
+* **Parameter Management:** Dynamically adjusts the server's settings based on incoming messages to ensure correct robot control.
 
 
 ### DeviceDriverImpl.cpp
